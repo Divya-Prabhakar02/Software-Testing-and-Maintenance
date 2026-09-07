@@ -166,6 +166,96 @@ class TestBowlingGame(unittest.TestCase):
 
         self.assertEqual(game.score(), 15)
 
+    # ---------------------------------------------------------
+    # ADDITIONAL TESTS
+    # ---------------------------------------------------------
+
+    def test_boundary_ten(self):
+        """Ten pins is the maximum valid score for one roll."""
+        game = BowlingGame()
+
+        rolls = [
+            10,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0
+        ]
+
+        for pins in rolls:
+            game.roll(pins)
+
+        self.assertEqual(game.score(), 10)
+
+    def test_spare_followed_by_strike(self):
+        """A spare followed by a strike should receive the correct bonus."""
+        game = BowlingGame()
+
+        rolls = [
+            5, 5,
+            10,
+            4, 3,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0
+        ]
+
+        for pins in rolls:
+            game.roll(pins)
+
+        self.assertEqual(game.score(), 44)
+
+    def test_strike_followed_by_spare(self):
+        """A strike followed by a spare should receive the correct bonuses."""
+        game = BowlingGame()
+
+        rolls = [
+            10,
+            5, 5,
+            4, 3,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0
+        ]
+
+        for pins in rolls:
+            game.roll(pins)
+
+        self.assertEqual(game.score(), 41)
+
+    def test_several_consecutive_strikes(self):
+        """Several consecutive strikes should calculate bonuses correctly."""
+        game = BowlingGame()
+
+        rolls = [
+            10,
+            10,
+            10,
+            4, 3,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0,
+            0, 0
+        ]
+
+        for pins in rolls:
+            game.roll(pins)
+
+        self.assertEqual(game.score(), 78)
+
 
 if __name__ == "__main__":
     unittest.main()
